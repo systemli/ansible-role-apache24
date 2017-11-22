@@ -1,0 +1,123 @@
+- name: ensure apache packages are installed
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items: "{{ apache24_packages }}"
+
+- name: ensure apache2-mpm is installed on Jessie or older
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - apache2-mpm-worker
+  when: ansible_distribution_major_version|int <= 8
+
+- name: ensure basic configs are latest
+  template:
+    src: apache2/{{ item }}.j2
+    dest: /etc/apache2/{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - apache2.conf
+    - ports.conf
+  notify: restart apache
+
+- name: ensure available module configs are latest
+  template:
+    src: apache2/mods-available/{{ item }}.j2
+    dest: /etc/apache2/mods-available/{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - ssl.conf
+    - mpm_worker.conf
+  notify: restart apache
+
+- name: ensure custom module configs are latest
+  copy:
+    src: "apache2/mods-available/{{ item }}"
+    dest: "/etc/apache2/mods-available/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{ apache24_custom_modules }}"
+  notify: restart apache
+
+- name: enable modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ apache24_modules }}"
+  notify: restart apache
+
+- name: ensure apache2 modules for stretch or later are present
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "http2"
+  when: ansible_distribution_major_version|int >= 9
+  notify: restart apache
+
+- name: disable modules
+  apache2_module:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ apache24_disabled_modules }}"
+  notify: restart apache
+
+- name: disable default apache site
+  file:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+  notify: restart apache
+
+- name: disable default-ssl apache site
+  file:
+    path: /etc/apache2/sites-enabled/000-default-ssl.conf
+    state: absent
+  notify: restart apache
+
+- name: ensure localhost only vhost is absent
+  file:
+    path: /etc/apache2/sites-available/00_localhost.conf
+    state: absent
+
+- name: ensure localhost only vhost is absent
+  file:
+    path: /etc/apache2/sites-enabled/00_localhost.conf
+    state: absent
+  notify: restart apache
+
+- name: ensure apache additional config files are latest
+  copy:
+    src: "apache2/conf-available/{{ item }}"
+    dest: "/etc/apache2/conf-available/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "{{ apache24_custom_configs }}"
+  notify: restart apache
+
+- name: ensure apache additional config files are present
+  file:
+    src: "/etc/apache2/conf-available/{{ item }}"
+    dest: "/etc/apache2/conf-enabled/{{ item }}"
+    state: link
+  with_items:
+    - "{{ apache24_custom_configs }}"
+  notify: restart apache
+
+- name: ensure apache directories are present
+  file:
+    path: "/etc/apache2/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  with_items:
+    - includes

@@ -1,0 +1,15 @@
+galaxy_info:
+  author: systemli
+  description: Install and maintain Apache 2.4 from offical repo with Ansible. Contains tests for Travis CI and Vagrant.
+  company: systemli.org
+  license: GPLv3
+  min_ansible_version: 2.1.4.0
+  galaxy_tags:
+    - apache
+    - http
+    - web
+  platforms:
+    - name: Debian
+      versions:
+        - all
+dependencies: []
