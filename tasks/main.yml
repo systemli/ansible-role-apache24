@@ -46,15 +46,6 @@
   with_items: "{{ apache24_custom_modules }}"
   notify: restart apache
 
-- name: disable modules
-  apache2_module:
-    name: "{{ item }}"
-    state: absent
-    # we do checks after enabling
-    ignore_configcheck: True
-  with_items: "{{ apache24_disabled_modules }}"
-  notify: restart apache
-
 - name: enable modules
   apache2_module:
     name: "{{ item }}"
@@ -69,6 +60,13 @@
   with_items:
     - "http2"
   when: ansible_distribution_major_version|int >= 9
+  notify: restart apache
+
+- name: disable modules
+  apache2_module:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ apache24_disabled_modules }}"
   notify: restart apache
 
 - name: disable default apache site
