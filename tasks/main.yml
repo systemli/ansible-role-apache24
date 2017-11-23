@@ -46,6 +46,18 @@
   with_items: "{{ apache24_custom_modules }}"
   notify: restart apache
 
+- name: Enable mpm_worker
+  apache2_module:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    ignore_configcheck: True
+  with_items:
+    - {name:mpm_event, state:absent}
+    - {name:mpm_prefork, state:absent}
+    - {name:mpm_worker, state:present}
+  when: apache24_mpm_worker
+  notify: restart apache
+
 - name: enable modules
   apache2_module:
     name: "{{ item }}"

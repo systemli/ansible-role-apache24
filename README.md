@@ -58,12 +58,10 @@ Install and configure Apache 2.4
       - filter
       - cache_disk
       - socache_shmcb
-      - mpm_worker
 
-    apache24_disabled_modules:
-      - mpm_event
-      - mpm_prefork
+    apache24_disabled_modules: []
 
+    apache24_mpm_worker: True
     apache24_mpm_startservers: 2
     apache24_mpm_serverlimit: 16
     apache24_mpm_minsparethreads: 25
