@@ -110,6 +110,7 @@
     state: link
   with_items:
     - "{{ apache24_custom_configs }}"
+  when: not ansible_check_mode
   notify: restart apache
 
 - name: ensure apache directories are present
