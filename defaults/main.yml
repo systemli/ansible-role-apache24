@@ -61,7 +61,7 @@ apache24_mpm_maxsparethreads: 75
 apache24_mpm_threadlimit: 64
 apache24_mpm_threadperchild: 25
 apache24_mpm_max_clients: 150
-apache24_mpm_maxrequestworkers: 1000
+apache24_mpm_maxrequestworkers: "{{ apache24_mpm_serverlimit * apache24_mpm_threadperchild }}"
 apache24_mpm_maxconnectionsperchild: 0
 
 # source https://weakdh.org/sysadmin.html
