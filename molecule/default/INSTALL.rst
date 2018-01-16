@@ -8,7 +8,7 @@ being used.
 Requirements
 ============
 
-* Ansible 2.2 or higher
+* Ansible 2.3 or higher
 * Docker Engine
 * docker-py
 
