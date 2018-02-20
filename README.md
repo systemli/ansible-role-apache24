@@ -16,6 +16,11 @@ Install and configure Apache 2.4
     # port or ip:port
     apache24_additional_ports: []
 
+    # set default mutex in apache2.conf
+    # will be compilbed to (apache2.conf.j2):
+    # Mutex file:${APACHE_LOCK_DIR} default
+    apache24_mutex_default: "file:${APACHE_LOCK_DIR}"
+
     apache24_custom_modules:
       - expires.conf
       - deflate.conf
