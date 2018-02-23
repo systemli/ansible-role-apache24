@@ -25,7 +25,6 @@ Install and configure Apache 2.4
       - expires.conf
       - deflate.conf
       - headers.conf
-      - proxy.conf
       - status.conf
 
     apache24_custom_configs:

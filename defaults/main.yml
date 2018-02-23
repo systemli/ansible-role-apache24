@@ -17,7 +17,6 @@ apache24_custom_modules:
   - expires.conf
   - deflate.conf
   - headers.conf
-  - proxy.conf
   - status.conf
 
 apache24_custom_configs:
