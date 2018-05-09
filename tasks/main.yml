@@ -64,7 +64,7 @@
   apache2_module:
     name: "{{ item }}"
     state: present
-  with_items: "{{ apache24_modules }}"
+  with_items: "{{ apache24_modules + apache24_modules_extra }}"
   notify: restart apache
 
 - name: ensure apache2 modules for stretch or later are present

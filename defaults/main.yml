@@ -56,6 +56,8 @@ apache24_modules:
   - cache_disk
   - socache_shmcb
 
+apache24_modules_extra: []
+
 apache24_disabled_modules: []
 
 apache24_mpm_worker: True
