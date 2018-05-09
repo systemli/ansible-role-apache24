@@ -14,10 +14,11 @@ apache24_additional_ports: []
 apache24_mutex_default: "file:${APACHE_LOCK_DIR}"
 
 apache24_custom_modules:
-  - expires.conf
   - deflate.conf
+  - expires.conf
   - headers.conf
   - status.conf
+  - userdir.conf
 
 apache24_custom_configs:
   - security.conf
