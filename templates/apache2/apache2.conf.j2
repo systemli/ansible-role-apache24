@@ -71,7 +71,7 @@
 #
 # The accept serialization lock file MUST BE STORED ON A LOCAL DISK.
 #
-Mutex file:${APACHE_LOCK_DIR} default
+Mutex {{ apache24_mutex_default }} default
 
 #
 # PidFile: The file in which the server should record its process

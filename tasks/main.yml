@@ -1,3 +1,5 @@
+---
+
 - name: ensure apache packages are installed
   apt:
     pkg: "{{ item }}"
@@ -62,7 +64,7 @@
   apache2_module:
     name: "{{ item }}"
     state: present
-  with_items: "{{ apache24_modules }}"
+  with_items: "{{ apache24_modules + apache24_modules_extra }}"
   notify: restart apache
 
 - name: ensure apache2 modules for stretch or later are present
@@ -79,12 +81,6 @@
     name: "{{ item }}"
     state: absent
   with_items: "{{ apache24_disabled_modules }}"
-  notify: restart apache
-
-- name: disable default apache site
-  file:
-    path: /etc/apache2/sites-enabled/000-default.conf
-    state: absent
   notify: restart apache
 
 - name: disable default-ssl apache site
