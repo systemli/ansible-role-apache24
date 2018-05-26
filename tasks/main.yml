@@ -3,13 +3,13 @@
 - name: ensure apache packages are installed
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
   with_items: "{{ apache24_packages }}"
 
 - name: ensure apache2-mpm is installed on Jessie or older
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
   with_items:
     - apache2-mpm-worker
   when: ansible_distribution_major_version|int <= 8
