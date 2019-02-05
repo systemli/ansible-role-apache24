@@ -54,9 +54,9 @@
     state: "{{ item.state }}"
     ignore_configcheck: True
   with_items:
-    - {name: mpm_event,   state: absent}
+    - {name: mpm_event, state: absent}
     - {name: mpm_prefork, state: absent}
-    - {name: mpm_worker,  state: present}
+    - {name: mpm_worker, state: present}
   when: apache24_mpm_worker
   notify: restart apache
 
