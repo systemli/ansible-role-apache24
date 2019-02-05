@@ -1,3 +1,5 @@
+---
+
 apache24_packages:
   - apache2
   - apache2-utils
