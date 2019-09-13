@@ -13,5 +13,7 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - all
+        - jessy
+        - stretch
+        - buster
 dependencies: []
