@@ -4,7 +4,6 @@ apache24_packages:
   - apache2
   - apache2-utils
   - python-passlib
-  - "{{ 'libapache2-mod-proxy-uwsgi' if 'proxy_uwsgi' in apache24_modules or 'proxy_uwsgi' in apache24_modules_extra else [] }}"
 
 apache24_http_port: 80
 apache24_https_port: 443

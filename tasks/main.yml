@@ -2,17 +2,20 @@
 
 - name: ensure apache packages are installed
   apt:
-    pkg: "{{ item }}"
+    pkg: "{{ apache24_packages }}"
     state: present
-  with_items: "{{ apache24_packages }}"
 
 - name: ensure apache2-mpm is installed on Jessie or older
   apt:
-    pkg: "{{ item }}"
+    pkg: apache2-mpm-worker
     state: present
-  with_items:
-    - apache2-mpm-worker
   when: ansible_distribution_major_version|int <= 8
+
+- name: install libapache2-mod-proxy-uwsgi if necessary
+  apt:
+    pkg: libapache2-mod-proxy-uwsgi
+    state: present
+  when: "'proxy_uwsgi' in apache24_modules + apache24_modules_extra"
 
 - name: ensure basic configs are latest
   template:
