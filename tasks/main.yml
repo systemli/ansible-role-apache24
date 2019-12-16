@@ -9,7 +9,7 @@
   apt:
     pkg: apache2-mpm-worker
     state: present
-  when: ansible_distribution_major_version|int <= 8
+  when: ansible_distribution_major_version|int <= 8 and apache24_mpm == 'worker'
 
 - name: install libapache2-mod-proxy-uwsgi if necessary
   apt:
@@ -51,16 +51,20 @@
   with_items: "{{ apache24_custom_modules }}"
   notify: restart apache
 
-- name: Enable mpm_worker
-  apache2_module:
-    name: "{{ item.name }}"
-    state: "{{ item.state }}"
-    ignore_configcheck: True
+- name: Disable mpm modules
+  file:
+    path: "/etc/apache2/mods-enabled/{{ item }}.load"
+    state: absent
   with_items:
-    - {name: mpm_event, state: absent}
-    - {name: mpm_prefork, state: absent}
-    - {name: mpm_worker, state: present}
-  when: apache24_mpm_worker
+    - "{{ 'mpm_event' if apache24_mpm != 'event' else omit }}"
+    - "{{ 'mpm_prefork' if apache24_mpm != 'prefork' else omit }}"
+    - "{{ 'mpm_worker' if apache24_mpm != 'worker' else omit }}"
+
+- name: Enable mpm module
+  apache2_module:
+    name: "mpm_{{ apache24_mpm }}"
+    state: present
+    ignore_configcheck: True
   notify: restart apache
 
 - name: enable modules

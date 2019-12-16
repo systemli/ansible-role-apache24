@@ -69,7 +69,7 @@ apache24_modules_extra: []
 
 apache24_disabled_modules: []
 
-apache24_mpm_worker: True
+apache24_mpm: worker
 apache24_mpm_startservers: 2
 apache24_mpm_serverlimit: 16
 apache24_mpm_minsparethreads: 25
