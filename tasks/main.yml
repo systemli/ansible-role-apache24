@@ -137,3 +137,6 @@
     state: directory
   with_items:
     - includes
+
+- import_tasks: vhost.yml
+  tags: vhost
