@@ -124,7 +124,7 @@
     dest: "/etc/apache2/conf-enabled/{{ item }}"
     state: link
   with_items:
-    - "{{ apache24_custom_configs }}"
+    - "{{ apache24_custom_configs + apache24_configs }}"
   when: not ansible_check_mode
   notify: restart apache
 
