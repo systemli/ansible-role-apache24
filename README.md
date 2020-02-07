@@ -76,7 +76,7 @@ apache24_custom_configs:
   - other-vhosts-access-log.conf
   - httpoxy.conf
 
-apache24_mpm: worker
+apache24_mpm: event
 apache24_mpm_startservers: 2
 apache24_mpm_serverlimit: 16
 apache24_mpm_minsparethreads: 25
