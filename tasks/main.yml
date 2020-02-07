@@ -5,12 +5,6 @@
     pkg: "{{ apache24_packages }}"
     state: present
 
-- name: ensure apache2-mpm is installed on Jessie or older
-  apt:
-    pkg: apache2-mpm-worker
-    state: present
-  when: ansible_distribution_major_version|int <= 8 and apache24_mpm == 'worker'
-
 - name: install libapache2-mod-proxy-uwsgi if necessary
   apt:
     pkg: libapache2-mod-proxy-uwsgi
@@ -37,8 +31,9 @@
     group: root
     mode: 0644
   with_items:
-    - ssl.conf
+    - mpm_event.conf
     - mpm_worker.conf
+    - ssl.conf
   notify: restart apache
 
 - name: ensure custom module configs are latest
