@@ -38,7 +38,15 @@
     mode: 0644
   with_items:
     - ssl.conf
-    - mpm_worker.conf
+  notify: restart apache
+
+- name: ensure available mpm module config is latest
+  template:
+    src: apache2/mods-available/mpm_worker.conf.j2
+    dest: /etc/apache2/mods-available/mpm_{{ apache24_mpm }}.conf.j2
+    owner: root
+    group: root
+    mode: 0644
   notify: restart apache
 
 - name: ensure custom module configs are latest
