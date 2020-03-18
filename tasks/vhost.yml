@@ -9,7 +9,7 @@
     mode: 0644
   with_fileglob: "apache2/sites-available/*.conf"
   notify:
-    - restart apache2
+    - restart apache
 
 - name: enable apache2 vhosts
   file:
@@ -20,4 +20,4 @@
     group: root
   with_fileglob: "apache2/sites-available/*.conf"
   notify:
-    - restart apache2
+    - restart apache
