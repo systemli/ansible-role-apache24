@@ -2,22 +2,22 @@
 
 - name: install apache2 vhost config files
   copy:
-    src: "{{ item }}"
+    src: "apache2/sites-available/{{ item }}.conf"
     dest: /etc/apache2/sites-available/
     owner: root
     group: root
     mode: 0644
-  with_fileglob: "apache2/sites-available/*.conf"
+  with_items: "{{ apache24_vhosts }}"
   notify:
-    - restart apache
+    - restart apache2
 
 - name: enable apache2 vhosts
   file:
-    src: "/etc/apache2/sites-available/{{ item|basename }}"
-    dest: "/etc/apache2/sites-enabled/{{ item|basename }}"
+    src: "/etc/apache2/sites-available/{{ item }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ item }}.conf"
     state: link
     owner: root
     group: root
-  with_fileglob: "apache2/sites-available/*.conf"
+  with_items: "{{ apache24_vhosts }}"
   notify:
-    - restart apache
+    - restart apache2

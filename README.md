@@ -71,6 +71,8 @@ apache24_disabled_modules: []
 
 apache24_configs: []
 
+apache24_vhosts: []
+
 apache24_custom_configs:
   - security.conf
   - other-vhosts-access-log.conf

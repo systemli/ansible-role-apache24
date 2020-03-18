@@ -27,7 +27,7 @@
   with_items:
     - apache2.conf
     - ports.conf
-  notify: restart apache
+  notify: restart apache2
 
 - name: ensure available module configs are latest
   template:
@@ -38,7 +38,7 @@
     mode: 0644
   with_items:
     - ssl.conf
-  notify: restart apache
+  notify: restart apache2
 
 - name: ensure available mpm module config is latest
   template:
@@ -47,7 +47,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart apache
+  notify: restart apache2
 
 - name: ensure custom module configs are latest
   copy:
@@ -57,7 +57,7 @@
     group: root
     mode: 0644
   with_items: "{{ apache24_custom_modules }}"
-  notify: restart apache
+  notify: restart apache2
 
 - name: Disable mpm modules
   file:
@@ -73,14 +73,14 @@
     name: "mpm_{{ apache24_mpm }}"
     state: present
     ignore_configcheck: True
-  notify: restart apache
+  notify: restart apache2
 
 - name: enable modules
   apache2_module:
     name: "{{ item }}"
     state: present
   with_items: "{{ apache24_modules + apache24_modules_extra }}"
-  notify: restart apache
+  notify: restart apache2
 
 - name: ensure apache2 modules for stretch or later are present
   apache2_module:
@@ -89,31 +89,28 @@
   with_items:
     - "http2"
   when: ansible_distribution_major_version|int >= 9
-  notify: restart apache
+  notify: restart apache2
 
 - name: disable modules
   apache2_module:
     name: "{{ item }}"
     state: absent
   with_items: "{{ apache24_disabled_modules }}"
-  notify: restart apache
+  notify: restart apache2
 
 - name: disable default-ssl apache site
   file:
     path: /etc/apache2/sites-enabled/000-default-ssl.conf
     state: absent
-  notify: restart apache
+  notify: restart apache2
 
 - name: ensure localhost only vhost is absent
   file:
-    path: /etc/apache2/sites-available/00_localhost.conf
+    path: "/etc/apache2/sites-{{ item }}/00_localhost.conf"
     state: absent
-
-- name: ensure localhost only vhost is absent
-  file:
-    path: /etc/apache2/sites-enabled/00_localhost.conf
-    state: absent
-  notify: restart apache
+  with_items:
+    - enabled
+    - available
 
 - name: ensure apache additional config files are latest
   copy:
@@ -124,7 +121,7 @@
     mode: 0644
   with_items:
     - "{{ apache24_custom_configs }}"
-  notify: restart apache
+  notify: restart apache2
 
 - name: ensure apache additional config files are present
   file:
@@ -134,7 +131,7 @@
   with_items:
     - "{{ apache24_custom_configs + apache24_configs }}"
   when: not ansible_check_mode
-  notify: restart apache
+  notify: restart apache2
 
 - name: ensure apache directories are present
   file:
