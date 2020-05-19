@@ -3,7 +3,7 @@
 apache24_packages:
   - apache2
   - apache2-utils
-  - python-passlib
+  - "{{ 'python3' if ansible_python.version.major|int == 3 else 'python' }}-passlib"
 
 apache24_http_port: 80
 apache24_https_port: 443
