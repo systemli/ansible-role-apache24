@@ -1,6 +1,7 @@
 # ansible-role-apache24
 
-[![Build Status](https://travis-ci.org/systemli/ansible-role-apache24.svg?branch=master)](https://travis-ci.org/systemli/ansible-role-apache24) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-apache24-blue.svg)](https://galaxy.ansible.com/systemli/apache24/)
+[![Build Status](https://travis-ci.com/systemli/ansible-role-apache24.svg?branch=master)](https://travis-ci.com/systemli/ansible-role-apache24)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-apache24-blue.svg)](https://galaxy.ansible.com/systemli/apache24/)
 
 Install and configure Apache 2.4
 
