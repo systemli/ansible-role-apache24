@@ -4,6 +4,7 @@
   apt:
     pkg: "{{ apache24_packages }}"
     state: present
+    cache_valid_time: 600
 
 - name: install libapache2-mod-proxy-uwsgi if necessary
   apt:
