@@ -74,7 +74,7 @@
 	SSLHonorCipherOrder on
 
 	#   The protocols to enable.
-	#   Available values: all, SSLv3, TLSv1, TLSv1.1, TLSv1.2, TLSv1.3
+	#   Available values: all, SSLv3, TLSv1, TLSv1.1, TLSv1.2
 	#   SSL v2  is no longer supported
 	SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
 
@@ -85,6 +85,7 @@
 	#   Whether to forbid non-SNI clients to access name based virtual hosts.
 	#   Default: Off
 	#SSLStrictSNIVHostCheck On
+
 </IfModule>
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
