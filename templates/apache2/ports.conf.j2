@@ -5,11 +5,11 @@
 Listen {{ apache24_http_port }}
 
 <IfModule ssl_module>
-    Listen {{ apache24_https_port }}
+      Listen {{ apache24_https_port }}
 </IfModule>
 
 <IfModule mod_gnutls.c>
-    Listen {{ apache24_https_port }}
+      Listen {{ apache24_https_port }}
 </IfModule>
 
 # Additional ports
