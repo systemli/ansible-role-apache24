@@ -1,6 +1,6 @@
 # ansible-role-apache24
 
-[![Build Status](https://github.com/systemli/ansible-role-apache24/workflows/Integration/badge.svg?branch=master)](https://github.com/systemli/ansible-role-apache24/actions?query=workflow%3AIntegration)
+[![Build Status](https://github.com/systemli/ansible-role-apache24/workflows/Integration/badge.svg?branch=main)](https://github.com/systemli/ansible-role-apache24/actions?query=workflow%3AIntegration)
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-apache24-blue.svg)](https://galaxy.ansible.com/systemli/apache24/)
 
 Install and configure Apache 2.4
