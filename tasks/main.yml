@@ -1,18 +1,18 @@
 ---
 
-- name: ensure apache packages are installed
+- name: Ensure apache packages are installed
   apt:
     pkg: "{{ apache24_packages }}"
     state: present
     cache_valid_time: 600
 
-- name: install libapache2-mod-proxy-uwsgi if necessary
+- name: Install libapache2-mod-proxy-uwsgi if necessary
   apt:
     pkg: libapache2-mod-proxy-uwsgi
     state: present
   when: "'proxy_uwsgi' in apache24_modules + apache24_modules_extra"
 
-- name: ensure basic configs are latest
+- name: Ensure basic configs are latest
   template:
     src: apache2/{{ item }}.j2
     dest: /etc/apache2/{{ item }}
@@ -22,9 +22,9 @@
   with_items:
     - apache2.conf
     - ports.conf
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: ensure available module configs are latest
+- name: Ensure available module configs are latest
   template:
     src: apache2/mods-available/{{ item }}.j2
     dest: /etc/apache2/mods-available/{{ item }}
@@ -33,18 +33,18 @@
     mode: 0644
   with_items:
     - ssl.conf
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: ensure available mpm module config is latest
+- name: Ensure available mpm module config is latest
   template:
     src: apache2/mods-available/mpm_worker.conf.j2
     dest: /etc/apache2/mods-available/mpm_{{ apache24_mpm }}.conf.j2
     owner: root
     group: root
     mode: 0644
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: ensure custom module configs are latest
+- name: Ensure custom module configs are latest
   copy:
     src: "apache2/mods-available/{{ item }}"
     dest: "/etc/apache2/mods-available/{{ item }}"
@@ -52,7 +52,7 @@
     group: root
     mode: 0644
   with_items: "{{ apache24_custom_modules }}"
-  notify: restart apache2
+  notify: Restart apache2
 
 - name: Disable mpm modules
   file:
@@ -64,42 +64,42 @@
     - "{{ 'mpm_worker' if apache24_mpm != 'worker' else omit }}"
 
 - name: Enable mpm module
-  apache2_module:
+  community.general.apache2_module:
     name: "mpm_{{ apache24_mpm }}"
     state: present
     ignore_configcheck: True
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: enable modules
-  apache2_module:
+- name: Enable modules
+  community.general.apache2_module:
     name: "{{ item }}"
     state: present
   with_items: "{{ apache24_modules + apache24_modules_extra }}"
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: ensure apache2 modules for stretch or later are present
-  apache2_module:
+- name: Ensure apache2 modules for stretch or later are present
+  community.general.apache2_module:
     name: "{{ item }}"
     state: present
   with_items:
     - "http2"
   when: ansible_distribution_major_version|int >= 9
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: disable modules
-  apache2_module:
+- name: Disable modules
+  community.general.apache2_module:
     name: "{{ item }}"
     state: absent
   with_items: "{{ apache24_disabled_modules }}"
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: disable default-ssl apache site
+- name: Disable default-ssl apache site
   file:
     path: /etc/apache2/sites-enabled/000-default-ssl.conf
     state: absent
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: ensure localhost only vhost is absent
+- name: Ensure localhost only vhost is absent
   file:
     path: "/etc/apache2/sites-{{ item }}/00_localhost.conf"
     state: absent
@@ -107,8 +107,8 @@
     - enabled
     - available
 
-- name: ensure apache additional config files are latest
-  copy:
+- name: Ensure apache additional config files are latest
+  template:
     src: "apache2/conf-available/{{ item }}"
     dest: "/etc/apache2/conf-available/{{ item }}"
     owner: root
@@ -116,9 +116,9 @@
     mode: 0644
   with_items:
     - "{{ apache24_custom_configs }}"
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: ensure apache additional config files are present
+- name: Ensure apache additional config files are present
   file:
     src: "/etc/apache2/conf-available/{{ item }}"
     dest: "/etc/apache2/conf-enabled/{{ item }}"
@@ -126,9 +126,9 @@
   with_items:
     - "{{ apache24_custom_configs + apache24_configs }}"
   when: not ansible_check_mode
-  notify: restart apache2
+  notify: Restart apache2
 
-- name: ensure apache directories are present
+- name: Ensure apache directories are present
   file:
     path: "/etc/apache2/{{ item }}"
     owner: root
@@ -138,5 +138,6 @@
   with_items:
     - includes
 
-- import_tasks: vhost.yml
+- name: Import task vhost
+  import_tasks: vhost.yml
   tags: vhost
