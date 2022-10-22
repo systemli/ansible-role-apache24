@@ -3,7 +3,7 @@
 apache24_packages:
   - apache2
   - apache2-utils
-  - "{{ 'python3' if ansible_python.version.major|int == 3 else 'python' }}-passlib"
+  - "{{ 'python3' if ansible_python.version.major | int == 3 else 'python' }}-passlib"
 
 apache24_http_port: 80
 apache24_https_port: 443
@@ -65,6 +65,9 @@ apache24_custom_configs:
   - security.conf
   - other-vhosts-access-log.conf
   - httpoxy.conf
+
+apache24_apache2_conf_error_log: 'ErrorLog  "|/usr/bin/logger -t apache -p local0.error"'
+apache24_other_vhosts_access_log_conf_custom_log: 'CustomLog /dev/null vhost_combined'
 
 apache24_mpm: event
 apache24_mpm_startservers: 2

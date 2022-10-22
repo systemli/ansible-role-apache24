@@ -132,9 +132,8 @@ HostnameLookups Off
 # container, that host's errors will be logged there and not here.
 #
 #ErrorLog ${APACHE_LOG_DIR}/error.log
-ErrorLog  "|/usr/bin/logger -t apache -p local0.error"
+{{ apache24_apache2_conf_error_log }}
 
-#
 # LogLevel: Control the severity of messages logged to the error_log.
 # Available values: trace8, ..., trace1, debug, info, notice, warn,
 # error, crit, alert, emerg.

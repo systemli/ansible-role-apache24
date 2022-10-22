@@ -1,6 +1,6 @@
 ---
 
-- name: install apache2 vhost config files
+- name: Install apache2 vhost config files
   copy:
     src: "apache2/sites-available/{{ item }}.conf"
     dest: /etc/apache2/sites-available/
@@ -9,9 +9,9 @@
     mode: 0644
   with_items: "{{ apache24_vhosts }}"
   notify:
-    - restart apache2
+    - Restart apache2
 
-- name: enable apache2 vhosts
+- name: Enable apache2 vhosts
   file:
     src: "/etc/apache2/sites-available/{{ item }}.conf"
     dest: "/etc/apache2/sites-enabled/{{ item }}.conf"
@@ -20,4 +20,4 @@
     group: root
   with_items: "{{ apache24_vhosts }}"
   notify:
-    - restart apache2
+    - Restart apache2
