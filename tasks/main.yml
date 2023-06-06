@@ -1,60 +1,60 @@
 ---
 - name: Ensure apache packages are installed
-  apt:
+  ansible.builtin.apt:
     pkg: "{{ apache24_packages }}"
     state: present
     cache_valid_time: 600
 
 - name: Install libapache2-mod-proxy-uwsgi if necessary
-  apt:
+  ansible.builtin.apt:
     pkg: libapache2-mod-proxy-uwsgi
     state: present
   when: "'proxy_uwsgi' in apache24_modules + apache24_modules_extra"
 
 - name: Ensure basic configs are latest
-  template:
+  ansible.builtin.template:
     src: apache2/{{ item }}.j2
     dest: /etc/apache2/{{ item }}
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   with_items:
     - apache2.conf
     - ports.conf
   notify: Restart apache2
 
 - name: Ensure available module configs are latest
-  template:
+  ansible.builtin.template:
     src: apache2/mods-available/{{ item }}.j2
     dest: /etc/apache2/mods-available/{{ item }}
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   with_items:
     - ssl.conf
   notify: Restart apache2
 
 - name: Ensure available mpm module config is latest
-  template:
+  ansible.builtin.template:
     src: apache2/mods-available/mpm_worker.conf.j2
     dest: /etc/apache2/mods-available/mpm_{{ apache24_mpm }}.conf.j2
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify: Restart apache2
 
 - name: Ensure custom module configs are latest
-  copy:
+  ansible.builtin.copy:
     src: "apache2/mods-available/{{ item }}"
     dest: "/etc/apache2/mods-available/{{ item }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   with_items: "{{ apache24_custom_modules }}"
   notify: Restart apache2
 
 - name: Disable unused mpm modules
-  file:
+  ansible.builtin.file:
     path: "/etc/apache2/mods-enabled/{{ item }}.load"
     state: absent
   with_items:
@@ -63,7 +63,7 @@
     - "{{ 'mpm_worker' if apache24_mpm != 'worker' else omit }}"
 
 - name: Disable unused mpm module config
-  file:
+  ansible.builtin.file:
     path: /etc/apache2/mods-enabled/{{ item }}.conf
     state: absent
   with_items:
@@ -102,13 +102,13 @@
   notify: Restart apache2
 
 - name: Disable default-ssl apache site
-  file:
+  ansible.builtin.file:
     path: /etc/apache2/sites-enabled/000-default-ssl.conf
     state: absent
   notify: Restart apache2
 
 - name: Ensure localhost only vhost is absent
-  file:
+  ansible.builtin.file:
     path: "/etc/apache2/sites-{{ item }}/00_localhost.conf"
     state: absent
   with_items:
@@ -116,18 +116,18 @@
     - available
 
 - name: Ensure apache additional config files are latest
-  template:
+  ansible.builtin.template:
     src: "apache2/conf-available/{{ item }}"
     dest: "/etc/apache2/conf-available/{{ item }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   with_items:
     - "{{ apache24_custom_configs }}"
   notify: Restart apache2
 
 - name: Ensure apache additional config files are present
-  file:
+  ansible.builtin.file:
     src: "/etc/apache2/conf-available/{{ item }}"
     dest: "/etc/apache2/conf-enabled/{{ item }}"
     state: link
@@ -137,15 +137,15 @@
   notify: Restart apache2
 
 - name: Ensure apache directories are present
-  file:
+  ansible.builtin.file:
     path: "/etc/apache2/{{ item }}"
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
     state: directory
   with_items:
     - includes
 
 - name: Import task vhost
-  import_tasks: vhost.yml
+  ansible.builtin.import_tasks: vhost.yml
   tags: vhost

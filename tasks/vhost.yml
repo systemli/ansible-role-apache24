@@ -1,18 +1,17 @@
 ---
-
 - name: Install apache2 vhost config files
-  copy:
+  ansible.builtin.copy:
     src: "apache2/sites-available/{{ item }}.conf"
     dest: /etc/apache2/sites-available/
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   with_items: "{{ apache24_vhosts }}"
   notify:
     - Restart apache2
 
 - name: Enable apache2 vhosts
-  file:
+  ansible.builtin.file:
     src: "/etc/apache2/sites-available/{{ item }}.conf"
     dest: "/etc/apache2/sites-enabled/{{ item }}.conf"
     state: link
