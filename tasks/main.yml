@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure apache packages are installed
   apt:
     pkg: "{{ apache24_packages }}"
@@ -54,9 +53,18 @@
   with_items: "{{ apache24_custom_modules }}"
   notify: Restart apache2
 
-- name: Disable mpm modules
+- name: Disable unused mpm modules
   file:
     path: "/etc/apache2/mods-enabled/{{ item }}.load"
+    state: absent
+  with_items:
+    - "{{ 'mpm_event' if apache24_mpm != 'event' else omit }}"
+    - "{{ 'mpm_prefork' if apache24_mpm != 'prefork' else omit }}"
+    - "{{ 'mpm_worker' if apache24_mpm != 'worker' else omit }}"
+
+- name: Disable unused mpm module config
+  file:
+    path: /etc/apache2/mods-enabled/{{ item }}.conf
     state: absent
   with_items:
     - "{{ 'mpm_event' if apache24_mpm != 'event' else omit }}"
