@@ -24,8 +24,8 @@
 #	|	`-- *.conf
 #	|-- conf-enabled
 #	|	`-- *.conf
-# 		`-- sites-enabled
-# 		`-- *.conf
+# 	`-- sites-enabled
+#	 	`-- *.conf
 #
 #
 # * apache2.conf is the main configuration file (this file). It puts the pieces
@@ -134,6 +134,7 @@ HostnameLookups Off
 #ErrorLog ${APACHE_LOG_DIR}/error.log
 {{ apache24_apache2_conf_error_log }}
 
+#
 # LogLevel: Control the severity of messages logged to the error_log.
 # Available values: trace8, ..., trace1, debug, info, notice, warn,
 # error, crit, alert, emerg.
@@ -193,7 +194,7 @@ AccessFileName .htaccess
 # viewed by Web clients.
 #
 <FilesMatch "^\.ht">
-       Require all denied
+	Require all denied
 </FilesMatch>
 
 
@@ -223,5 +224,3 @@ IncludeOptional conf-enabled/*.conf
 
 # Include the virtual host configurations:
 IncludeOptional sites-enabled/*.conf
-
-# vim: syntax=apache ts=4 sw=4 sts=4 sr noet

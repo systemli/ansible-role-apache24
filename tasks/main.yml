@@ -36,8 +36,8 @@
 
 - name: Ensure available mpm module config is latest
   ansible.builtin.template:
-    src: apache2/mods-available/mpm_worker.conf.j2
-    dest: /etc/apache2/mods-available/mpm_{{ apache24_mpm }}.conf.j2
+    src: apache2/mods-available/mpm_event.conf.j2
+    dest: /etc/apache2/mods-available/mpm_{{ apache24_mpm }}.conf
     owner: root
     group: root
     mode: "0644"
@@ -134,16 +134,6 @@
     - "{{ apache24_custom_configs + apache24_configs }}"
   when: not ansible_check_mode
   notify: Restart apache2
-
-- name: Ensure apache directories are present
-  ansible.builtin.file:
-    path: "/etc/apache2/{{ item }}"
-    owner: root
-    group: root
-    mode: "0755"
-    state: directory
-  with_items:
-    - includes
 
 - name: Import task vhost
   ansible.builtin.import_tasks: vhost.yml
