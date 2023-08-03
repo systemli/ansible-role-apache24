@@ -85,13 +85,12 @@
   with_items: "{{ apache24_modules + apache24_modules_extra }}"
   notify: Restart apache2
 
-- name: Ensure apache2 modules for stretch or later are present
+- name: Ensure apache2 modules are present
   community.general.apache2_module:
     name: "{{ item }}"
     state: present
   with_items:
     - "http2"
-  when: ansible_distribution_major_version|int >= 9
   notify: Restart apache2
 
 - name: Disable modules
