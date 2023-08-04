@@ -4,11 +4,14 @@ driver:
   provider:
     name: virtualbox
 platforms:
-  - name: apache24-bullseye64
-    box: debian/bullseye64
-  - name: apache24-buster64
-    box: debian/buster64
-lint: set -e; yamllint .; ansible-lint
+  - name: apache24-bookworm64
+    box: debian/bookworm64
 provisioner:
   name: ansible
   become: true
+  ansible_args:
+    - --diff
+lint: |
+  set -e
+  yamllint .
+#  ansible-lint

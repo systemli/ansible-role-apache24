@@ -17,7 +17,6 @@ apache24_mutex_default: "file:${APACHE_LOCK_DIR}"
 
 apache24_custom_modules:
   - deflate.conf
-  - expires.conf
   - headers.conf
   - status.conf
   - userdir.conf

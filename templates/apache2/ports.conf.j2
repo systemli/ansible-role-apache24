@@ -5,16 +5,16 @@
 Listen {{ apache24_http_port }}
 
 <IfModule ssl_module>
-      Listen {{ apache24_https_port }}
+	Listen {{ apache24_https_port }}
 </IfModule>
 
 <IfModule mod_gnutls.c>
-      Listen {{ apache24_https_port }}
+	Listen {{ apache24_https_port }}
 </IfModule>
 
+{% if apache24_additional_ports is defined %}
 # Additional ports
 {% for entry in apache24_additional_ports %}
 Listen {{ entry }}
 {% endfor %}
-
-# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+{% endif %}
