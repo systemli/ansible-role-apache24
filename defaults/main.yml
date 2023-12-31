@@ -71,6 +71,8 @@ apache24_other_vhosts_access_log_conf_custom_log: 'CustomLog /dev/null vhost_com
 apache24_mpm: event
 apache24_mpm_startservers: 2
 apache24_mpm_serverlimit: 16
+apache24_mpm_minspareservers: 5
+apache24_mpm_maxspareservers: 10
 apache24_mpm_minsparethreads: 25
 apache24_mpm_maxsparethreads: 75
 apache24_mpm_threadlimit: 64
