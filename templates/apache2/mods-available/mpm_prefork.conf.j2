@@ -1,0 +1,13 @@
+# {{ apache24_mpm }} MPM
+# StartServers: number of server processes to start
+# MinSpareServers: minimum number of server processes which are kept spare
+# MaxSpareServers: maximum number of server processes which are kept spare
+# MaxRequestWorkers: maximum number of server processes allowed to start
+# MaxConnectionsPerChild: maximum number of requests a server process serves
+
+StartServers            {{ apache24_mpm_startservers }}
+MinSpareServers         {{ apache24_mpm_minspareservers }}
+MaxSpareServers         {{ apache24_mpm_maxspareservers }}
+MaxRequestWorkers       {{ apache24_mpm_maxrequestworkers }}
+MaxConnectionsPerChild  {{ apache24_mpm_maxconnectionsperchild }}
+ServerLimit             {{ apache24_mpm_serverlimit }}

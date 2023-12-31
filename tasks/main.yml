@@ -36,7 +36,7 @@
 
 - name: Ensure available mpm module config is latest
   ansible.builtin.template:
-    src: apache2/mods-available/mpm_event.conf.j2
+    src: apache2/mods-available/mpm_{{ apache24_mpm }}.conf.j2
     dest: /etc/apache2/mods-available/mpm_{{ apache24_mpm }}.conf
     owner: root
     group: root
