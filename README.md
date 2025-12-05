@@ -29,7 +29,7 @@ Testing & Development
 Tests
 -----
 
-For developing and testing the role we use Github Actions, Molecule, and Vagrant. On the local environment you can easily test the role with
+For developing and testing the role we use Github Actions, Molecule, and Docker. On the local environment you can easily test the role with
 
 Run local tests with:
 
@@ -37,8 +37,7 @@ Run local tests with:
 molecule test
 ```
 
-Requires Molecule, Vagrant and `python-vagrant, molecule-goss, molecule-vagrant` to be installed.For developing and testing the role we use Travis CI, Molecule and Vagrant. On the local environment you can easily test the role with
-
+Requires Molecule and Docker.
 
 ## License
 
