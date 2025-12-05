@@ -72,7 +72,7 @@ SSLCipherSuite {{ apache24_ssl_cipher_suite }}
 SSLHonorCipherOrder on
 
 #   The protocols to enable.
-#   Available values: all, SSLv3, TLSv1, TLSv1.1, TLSv1.2
+#   Available values: all, SSLv3, TLSv1, TLSv1.1, TLSv1.2, TLSv1.3
 #   SSL v2  is no longer supported
 SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
 
@@ -84,6 +84,6 @@ SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
 #   Default: Off
 #SSLStrictSNIVHostCheck On
 
-# Warning: Session Tickets require regular reloading of the server!
+# Warning: Session Tickets require regular restarting of the server!
 # Make sure you do this (e.g. via logrotate) before changing this setting!
 SSLSessionTickets off
