@@ -1,0 +1,166 @@
+---
+argument_specs:
+  main:
+    short_description: Install and configure the Apache 2.4 web server on Debian
+    description:
+      - Installs Apache, configures MPM, modules and global configs, and enables vhosts shipped in the playbook's C(files/apache2/sites-available) directory.
+    options:
+      apache24_packages:
+        type: list
+        elements: str
+        description:
+          - Packages to install.
+        default:
+          - apache2
+          - apache2-utils
+          - "{{ 'python3' if ansible_python.version.major | int == 3 else 'python' }}-passlib"
+      apache24_http_port:
+        type: int
+        description:
+          - HTTP listen port.
+        default: 80
+      apache24_https_port:
+        type: int
+        description:
+          - HTTPS listen port.
+        default: 443
+      apache24_additional_ports:
+        type: list
+        elements: str
+        description:
+          - Additional C(Listen) entries, either a port or C(ip:port).
+        default: []
+      apache24_mutex_default:
+        type: str
+        description:
+          - Value of the default C(Mutex) directive in apache2.conf.
+        default: "file:${APACHE_LOCK_DIR}"
+      apache24_custom_modules:
+        type: list
+        elements: str
+        description:
+          - Module config files from the role's C(files/apache2/mods-available) to copy.
+        default: [deflate.conf, headers.conf, status.conf, userdir.conf]
+      apache24_modules:
+        type: list
+        elements: str
+        description:
+          - Apache modules to enable.
+        default:
+          - actions
+          - alias
+          - auth_basic
+          - authn_file
+          - authz_groupfile
+          - authz_host
+          - authz_user
+          - autoindex
+          - cache
+          - cgid
+          - deflate
+          - dir
+          - env
+          - expires
+          - headers
+          - mime
+          - negotiation
+          - proxy
+          - proxy_http
+          - proxy_wstunnel
+          - reqtimeout
+          - rewrite
+          - setenvif
+          - ssl
+          - status
+          - authz_host
+          - filter
+          - cache_disk
+          - socache_shmcb
+      apache24_modules_extra:
+        type: list
+        elements: str
+        description:
+          - Additional modules to enable (appended to C(apache24_modules)).
+        default: []
+      apache24_disabled_modules:
+        type: list
+        elements: str
+        description:
+          - Modules to disable.
+        default: []
+      apache24_configs:
+        type: list
+        elements: str
+        description:
+          - Additional config names (file names in C(conf-available)) to enable.
+        default: []
+      apache24_vhosts:
+        type: list
+        elements: str
+        description:
+          - Names of vhost files (without C(.conf)) from C(files/apache2/sites-available) to install and enable.
+        default: []
+      apache24_custom_configs:
+        type: list
+        elements: str
+        description:
+          - Config templates shipped with the role to install and enable.
+        default: [security.conf, other-vhosts-access-log.conf, httpoxy.conf]
+      apache24_apache2_conf_error_log:
+        type: str
+        description:
+          - ErrorLog directive in apache2.conf.
+        default: 'ErrorLog  "|/usr/bin/logger -t apache -p local0.error"'
+      apache24_other_vhosts_access_log_conf_custom_log:
+        type: str
+        description:
+          - CustomLog directive in other-vhosts-access-log.conf.
+        default: CustomLog /dev/null vhost_combined
+      apache24_mpm:
+        type: str
+        choices: [event, prefork, worker]
+        description:
+          - Multi-processing module to use.
+        default: event
+      apache24_mpm_startservers:
+        type: int
+        default: 2
+      apache24_mpm_serverlimit:
+        type: int
+        default: 16
+      apache24_mpm_minspareservers:
+        type: int
+        default: 5
+      apache24_mpm_maxspareservers:
+        type: int
+        default: 10
+      apache24_mpm_minsparethreads:
+        type: int
+        default: 25
+      apache24_mpm_maxsparethreads:
+        type: int
+        default: 75
+      apache24_mpm_threadlimit:
+        type: int
+        default: 64
+      apache24_mpm_threadperchild:
+        type: int
+        default: 25
+      apache24_mpm_max_clients:
+        type: int
+        description:
+          - Not used by the role's templates, kept for compatibility.
+        default: 150
+      apache24_mpm_maxrequestworkers:
+        type: int
+        description:
+          - Defaults to C(apache24_mpm_serverlimit * apache24_mpm_threadperchild).
+        default: "{{ apache24_mpm_serverlimit * apache24_mpm_threadperchild }}"
+      apache24_mpm_maxconnectionsperchild:
+        type: int
+        default: 0
+      apache24_ssl_cipher_suite:
+        type: str
+        description:
+          - SSLCipherSuite value.
+        default: ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA:!3DES
