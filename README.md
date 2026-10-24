@@ -7,7 +7,7 @@ Install and configure Apache 2.4
 
 ## Role Variables
 
-see `defaults/main.yml`
+see `defaults/main.yml`. The accepted variables and their types are also declared in `meta/argument_specs.yml`.
 
 ## Download
 
