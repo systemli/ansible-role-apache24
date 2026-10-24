@@ -1,5 +1,5 @@
 .cache
 .molecule
 .tox
-.vagrant
-tests/__pycache__
+.ansible/
+.idea/

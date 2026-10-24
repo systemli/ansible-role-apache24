@@ -23,21 +23,16 @@ $ ansible-galaxy install systemli.apache24
     - { role: systemli.apache24 }
 ```
 
-Testing & Development
----------------------
+## Testing & Development
 
-Tests
------
-
-For developing and testing the role we use Github Actions, Molecule, and Docker. On the local environment you can easily test the role with
-
-Run local tests with:
+The role is tested with GitHub Actions, using Molecule with the Docker driver on Debian 12 (bookworm) and Debian 13 (trixie). Locally you need Docker, `molecule`, `molecule-plugins[docker]` and `ansible-lint`.
 
 ```
-molecule test
+molecule test       # full test run
+molecule converge   # apply the role to a container
+molecule login      # open a shell in the container
+ansible-lint .      # lint the role
 ```
-
-Requires Molecule and Docker.
 
 ## License
 
