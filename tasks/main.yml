@@ -75,7 +75,7 @@
   community.general.apache2_module:
     name: "mpm_{{ apache24_mpm }}"
     state: present
-    ignore_configcheck: True
+    ignore_configcheck: true
   notify: Restart apache2
 
 - name: Enable modules
