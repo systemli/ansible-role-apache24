@@ -13,8 +13,7 @@ Ansible role that installs and configures Apache 2.4 on Debian (bookworm, trixie
 
 ## Checks
 
-- `ansible-lint .` must pass (config in `.ansible-lint`, which excludes `molecule/` and `.github/`)
-- `yamllint .` uses `.yamllint`
+- `ansible-lint` must pass with the default configuration (no `.ansible-lint`)
 - `molecule test` runs the role in a container; CI runs it on Debian 12 and 13
 - `ansible-lint` creates `.ansible/`; it is git ignored, never commit it
 
